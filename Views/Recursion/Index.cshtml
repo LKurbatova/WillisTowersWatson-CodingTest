@@ -1,0 +1,55 @@
+﻿@using System.Security.Cryptography.X509Certificates
+@using Microsoft.AspNetCore.Html
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p markdown>
+    # Recursion Exercise
+
+    In this exercise you will take the provided `LocationList` object and display it using recursion. All children items should be indented underneath the parent something like this:
+
+    * Location
+      * Location 1
+        * Location 1.1
+      * Location 2
+        * Location 2.1
+        * Location 2.2
+
+    Any stylying for the indention is fine (dashes, spaces, pipes, asterisk, etc), whatever you want.
+
+    The only requirement is to use recursion and get the results to display correctly. How you do it is up to you to do as you see fit.
+    If it were me, I'd handle this in the Razor view, but if you have a cooler way to do it, go for it!
+
+</p>
+<p>
+    @{
+        var location = ViewData["Location"] as Location;
+        <div>@GetContent(location)</div>
+    }
+</p>
+
+@functions {
+    private static int _marginIncrement = 20;
+    public static HtmlString GetContent(Location location)
+    {
+        var formatedList = $@"<ul><li>{location.Name}</li>";
+        GetTree(location.ChildrenLocations, ref formatedList, 0);
+        formatedList += @"</ul>";
+        return new HtmlString(formatedList);
+    }
+
+    public static void GetTree(List<Location> locations, ref string formatedList, int margin)
+    {
+        margin += _marginIncrement;
+        foreach (var location in locations)
+        {
+            formatedList += $@"<div style='margin-left: {margin}px'><li>{location.Name}</li></div>";
+            if (location.ChildrenLocations.Any())
+            {
+
+                GetTree(location.ChildrenLocations, ref formatedList, margin);
+            }
+        }
+    }
+}

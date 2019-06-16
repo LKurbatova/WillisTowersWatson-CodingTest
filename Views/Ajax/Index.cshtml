@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<p markdown>
+    # Ajax
+
+    The point of this challenge is simple to load the HTML from the `Data` method on the `AjaxController` when the button is clicked, and place it in the `#content` div provided below.
+    Feel free to use any method or framework you want to achieve this.
+</p>
+<button id="btnLoad">Click Here</button>
+<div id="content"></div>
+
+<script src="lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("#btnLoad").click(function()
+        {
+            $("#content").load("@Url.Action("Data","Ajax")", null,
+                function (response, status, xhr)
+                {
+                    if (status == "error")
+                    {
+                        alert("An error occurred while loading the results.");
+                    }
+                });
+        });
+    });
+</script>
+
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnLoad').click(function () {
+                $.ajax({
+                    url: '/Ajax/Data',
+                    method: 'get',
+                    contentType: 'text/html',
+                    success: function (content) {
+                        $('#content').html(content);
+                    },
+                    error: function(e) {
+                    }
+                });
+            });
+
+        });
+  </script>*@

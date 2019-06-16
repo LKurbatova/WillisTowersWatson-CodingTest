@@ -1,0 +1,43 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Index";
+}
+<p markdown>
+    # LINQ
+
+    In this example, use LINQ queries to get the correct data in the `LinqController` from the `GradeList` object to return the following:
+
+    * Average Grade Percentage for Class
+    * How many students received each letter grade
+    * A list of students ordered by their number grade descending (Grade - FirstName LastName)
+</p>
+<h4>Average Grade</h4>
+<p>@Model.AverageGrade</p>
+<h4>List of Grades and Number of Students</h4>
+<p>
+    @{
+        // Retrieve the server generated config errors from the ViewData
+        <ul>
+            @foreach (var letterGrade in Model.StudentsCountByLetterGrade)
+            {
+                <li>
+                    @letterGrade.LetterGrade : @letterGrade.SudentsCount
+                </li>
+            }
+        </ul>
+    }
+</p>
+<h4>List of Students Ordered By Grades Descending</h4>
+<p>
+    @{
+        // Retrieve the server generated config errors from the ViewData
+        <ul>
+            @foreach (var student in Model.SortedStudents)
+            {
+            <li>
+                @student.NumberGrade - @student.FirstName @student.LastName
+            </li>
+            }
+        </ul>
+    }
+</p>
